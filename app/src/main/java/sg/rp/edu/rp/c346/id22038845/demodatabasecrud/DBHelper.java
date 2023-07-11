@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public class DBHelper extends SQLiteOpenHelper { //dbHelper === sqliteHelper class
     private static final int DATABASE_VER = 2; //always integer
     private static final String DATABASE_NAME ="simplenotes.db";
-
     private static final String TABLE_NOTE = "note";
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_NOTE_CONTENT = "note_content";
 
     public DBHelper(Context context) {
+
         super(context, DATABASE_NAME, null, DATABASE_VER);
     }
 
@@ -29,14 +29,14 @@ public class DBHelper extends SQLiteOpenHelper { //dbHelper === sqliteHelper cla
     public void onCreate(SQLiteDatabase db) {
         String createTableSql = "CREATE TABLE " + TABLE_NOTE + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COLUMN_NOTE_CONTENT + " TEXT)";
+                + COLUMN_NOTE_CONTENT + " TEXT )";
         db.execSQL(createTableSql);
         Log.i("info","created tables"); //not needed but to indicate in logcat
 
         // dummy records to be inserted when db is created
         for(int i = 0; i<4; i++){
-            ContentValues values = new ContentValues();
-            values.put(COLUMN_NOTE_CONTENT, "Data Number "+ i);
+                ContentValues values = new ContentValues();
+                values.put(COLUMN_NOTE_CONTENT, "Data Number "+ i);
             db.insert(TABLE_NOTE, null, values);
         }
         Log.i("info", "dummy records inserted");
@@ -47,9 +47,8 @@ public class DBHelper extends SQLiteOpenHelper { //dbHelper === sqliteHelper cla
         //db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTE );
         //onCreate(db); //not a good  practice
 
-        db.execSQL("ALTER TABLE " + TABLE_NOTE + " ADD COLUMN module_name TEXT");
+        db.execSQL("ALTER TABLE " + TABLE_NOTE + " ADD COLUMN module_name TEXT ");
         //^works in tandem with database version
-
     }
 
     public long insertNote(String noteContent){
@@ -113,7 +112,6 @@ public class DBHelper extends SQLiteOpenHelper { //dbHelper === sqliteHelper cla
 
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {COLUMN_ID, COLUMN_NOTE_CONTENT};
-
         String condition = COLUMN_NOTE_CONTENT + " Like ?";
         String[] args = {"%" + keyword + "%"};
         Cursor cursor = db.query(TABLE_NOTE, columns, condition, args, null,null,null,null);
@@ -130,6 +128,7 @@ public class DBHelper extends SQLiteOpenHelper { //dbHelper === sqliteHelper cla
         db.close();
         return notes;
     }
+
 
 
 

@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.Serializable;
+
 public class EditActivity extends AppCompatActivity {
 
     TextView tvID, tvContent;
@@ -30,11 +32,11 @@ public class EditActivity extends AppCompatActivity {
         btnUpdate = findViewById(R.id.btnUpdate);
         btnDelete = findViewById(R.id.btnDelete);
 
-        Intent intentRecieved = getIntent();
-        DBHelper dbh = new DBHelper(EditActivity.this);
-        int pos = intentRecieved.getIntExtra("position",0);
-        tvID.setText("ID: " + pos);
-        //tvContent.setText(data.getNoteContent(pos));
+        Intent i = getIntent();
+        data = (Note) i.getSerializableExtra("data");
+        tvID.setText("ID: " + data.getId());
+        etContent.setText(data.getNoteContent());
+
 
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -44,8 +46,7 @@ public class EditActivity extends AppCompatActivity {
                 data.setNoteContent(etContent.getText().toString());
                 dbh.updateNote(data);
                 dbh.close();
-                Intent i = new Intent(EditActivity.this,MainActivity.class);
-                startActivity(i);
+                finish();
             }
         });
 
@@ -54,8 +55,7 @@ public class EditActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DBHelper dbh = new DBHelper(EditActivity.this);
                 dbh.deleteNote(data.getId());
-                Intent i = new Intent(EditActivity.this,MainActivity.class);
-                startActivity(i);
+                finish();
             }
         });
 

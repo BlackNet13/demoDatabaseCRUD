@@ -25,14 +25,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<Note> aa;
 
     @Override
-    protected void onResume(){
-        super.onResume();
-
-        btnRetrieve.performClick();
-    }
-
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -93,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent i = new Intent(MainActivity.this,EditActivity.class);
                 i.putExtra("data", target);
-                i.putExtra("position", String.valueOf(btnEdit.getTag()));
                 startActivity(i);
 
             }
@@ -102,18 +93,22 @@ public class MainActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /*btnEdit.setTag(position);
-                btnEdit.performClick();*/
+                btnEdit.setTag(position);
+                /*btnEdit.performClick();*/
 
-                Note target =al.get(position);
+                Note data =al.get(position);
 
                 Intent i = new Intent(MainActivity.this,EditActivity.class);
-                i.putExtra("data", target);
-                i.putExtra("position", position);
+                i.putExtra("data", data);
                 startActivity(i);
-
-
             }
         });
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        btnRetrieve.performClick();
     }
 }

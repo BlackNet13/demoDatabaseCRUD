@@ -14,6 +14,7 @@ public class Note implements Serializable {
     public int getId(){return id;}
     public String getNoteContent(){return noteContent;}
     public void setNoteContent(String noteContent){
+
         this.noteContent =noteContent;
     }
 
